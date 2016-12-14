@@ -1,34 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ER_Framework
+﻿namespace de.sounour.uni.er
 {
     public abstract class DrawableObject
     {
-        private World exteriorWorld; 
+        private readonly World exteriorWorld; 
 
         private double positionX;
         public double PositionX
         {
             get { return positionX; }
-            set { positionX = value % exteriorWorld.SizeX; }
+            set { positionX = exteriorWorld.ToX(value);  }
         }
 
         private double positionY;
         public double PositionY
         {
             get { return positionY; }
-            set { positionY = value % exteriorWorld.SizeY; }
+            set { positionY = exteriorWorld.ToY(value); }
         }
 
-        public DrawableObject(World w, double x =0 , double y = 0) 
+        protected DrawableObject(World w, double x =0 , double y = 0) 
         {
-            this.exteriorWorld = w;
-            this.PositionX = x;
-            this.PositionY = y; 
+            exteriorWorld = w;
+            PositionX = x;
+            PositionY = y; 
         }
 
     }
