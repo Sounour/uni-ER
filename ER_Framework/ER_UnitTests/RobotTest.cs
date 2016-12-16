@@ -30,11 +30,11 @@ namespace de.sounour.uni.er.Tests
         {
             World w = new World(200, 200);
             Robot r = new Robot(w);
-            Assert.AreEqual(r.PositionX, 0);
-            Assert.AreEqual(r.PositionY, 0);
-            r.MoveStep();
-            Assert.IsTrue(Math.Abs(r.PositionX) - 2 < tolerance);
-            Assert.IsTrue(Math.Abs(r.PositionY) < tolerance);
+            Vector exp = new Vector(2,0);
+            Assert.AreEqual(exp, r.GetStep());
+            Assert.AreEqual(exp, r.GetStep());
+            Assert.AreEqual(exp, r.GetStep());
+
 
         }
 
