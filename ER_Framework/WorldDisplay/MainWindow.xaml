@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Canvas x:Name="BackgroundCanvas" HorizontalAlignment="Left" Height="300" Margin="10" VerticalAlignment="Top" Width="500"/>
+        <local:Background></local:Background>
         <Canvas x:Name="PathCanvas" HorizontalAlignment="Left" Height="300" Margin="10" VerticalAlignment="Top" Width="500"/>
 
     </Grid>

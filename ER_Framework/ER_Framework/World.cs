@@ -1,30 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.AccessControl;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace de.sounour.uni.er
 {
-
-
     public class World
     {
-        public double Width { get; set; } = 200;
-        public double Height { get; set; } = 200;
-
-        public List<Lightsource> Lightsources { get; private set; }
-        public List<DrawableObject> Objects { get; private set; } 
-        public List<Robot> Robots { get; set; } 
-     
-        public World(double x  ,double y , bool boundX = false, bool boundY = false)
+        public World(double x, double y, bool boundX = false, bool boundY = false)
         {
             GlobalConstraints.BoundX = boundX;
             GlobalConstraints.BoundY = boundY;
-            this.Width = x;
-            this.Height = y;
+            Width = x;
+            Height = y;
 
             Lightsources = new List<Lightsource>();
             Objects = new List<DrawableObject>();
@@ -33,20 +20,24 @@ namespace de.sounour.uni.er
 
         public World()
         {
-
         }
+
+        public double Width { get; set; } = 200;
+        public double Height { get; set; } = 200;
+
+        public List<Lightsource> Lightsources { get; }
+        public List<DrawableObject> Objects { get; private set; }
+        public List<Robot> Robots { get; set; }
 
         public void Step()
         {
             foreach (Robot r in Robots)
             {
                 Vector step = r.GetStep();
-                Console.WriteLine("Step:{0}, Length: {1}",step,step.Length);
+                Console.WriteLine("Step:{0}, Length: {1}", step, step.Length);
                 // TODO Check if step is possible 
                 if (true)
-                {
                     r.TakeStep(step);
-                }
             }
         }
 
@@ -72,7 +63,7 @@ namespace de.sounour.uni.er
                     positionX = x;
             }
 
-            return positionX; 
+            return positionX;
         }
 
         public double ToY(double y)
@@ -106,39 +97,9 @@ namespace de.sounour.uni.er
             foreach (Lightsource l in Lightsources)
             {
                 double t = l.CalculateBrightness(x, y);
-                result = result > t ? result : t; 
+                result = result > t ? result : t;
             }
-            return result; 
+            return result;
         }
-
-        public UIElement GetBackground(int numColumns, int numRows)
-        {
-            StackPanel completePanel= new StackPanel();
-            completePanel.Orientation=Orientation.Horizontal;
-            double width = this.Width/numColumns;
-            double height = this.Height/numRows;
-
-            for (int i = 0; i < numColumns; i++)
-            {
-                StackPanel columnPanel = new StackPanel(); 
-                for (int j = 0; j < numRows; j++)
-                {
-                    byte lightlevel = Convert.ToByte(CalculateLightLevel(i * width + width / 2, j*height + height / 2));
-                    Color llColor = Color.FromRgb(lightlevel, lightlevel, lightlevel);
-                    Rectangle r = new Rectangle
-                    {
-                        Width = width,
-                        Height = height,
-                        Stroke = new SolidColorBrush(llColor),
-                        Fill = new SolidColorBrush(llColor)
-                    };
-                    columnPanel.Children.Add(r);
-
-                }
-                completePanel.Children.Add(columnPanel);
-            }
-            return completePanel;
-        }
-
     }
 }
