@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Input;
 
 namespace de.sounour.uni.er
 {
     public class World
     {
-        public World(double x, double y, bool boundX = false, bool boundY = false)
+        public World(int x, int y, bool boundX = false, bool boundY = false)
         {
             GlobalConstraints.BoundX = boundX;
             GlobalConstraints.BoundY = boundY;
@@ -22,8 +25,9 @@ namespace de.sounour.uni.er
         {
         }
 
-        public double Width { get; set; } = 200;
-        public double Height { get; set; } = 200;
+        public int Width { get; set; } = 200;
+        public int Height { get; set; } = 200;
+        public int Speed { get; set; } = 5;
 
         public List<Lightsource> Lightsources { get; }
         public List<DrawableObject> Objects { get; private set; }

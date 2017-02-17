@@ -5,12 +5,69 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorldDisplay"
         xmlns:er1="clr-namespace:de.sounour.uni.er;assembly=ER_Framework"
+        xmlns:viewModel="clr-namespace:WorldDisplay.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <local:Background></local:Background>
-        <Canvas x:Name="PathCanvas" HorizontalAlignment="Left" Height="300" Margin="10" VerticalAlignment="Top" Width="500"/>
+        Title="MainWindow" Height="350" Width="525" DataContext="{StaticResource SimProps}">
+    
+    
+    <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Vertical">
+            <GroupBox Header="World">
 
-    </Grid>
+                <GroupBox.DataContext>
+                    <Binding ElementName="FloorWithLightCanvas" />
+                </GroupBox.DataContext>
+                
+                <StackPanel Orientation="Vertical">
+                    <Grid Width="120">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0">X Tiles</Label>
+                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="XBox" Text="{Binding NumberOfXTiles}" />
+
+                        <Label Grid.Row="1" Grid.Column="0">Y Tiles</Label>
+                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="YBox" Text="{Binding NumberOfYTiles}" />
+                    </Grid>
+                    <Button Command="{Binding GenerateWorldCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.World}">
+                        Generate World
+                    </Button>
+                </StackPanel>
+            </GroupBox>
+            <Grid Width="120">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="2" Grid.Column="0"> Speed </Label>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="SpeedBox" Text="{Binding Robot.Speed}" />
+
+                <Label Grid.Row="3" Grid.Column="0">Turn</Label>
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="TurnBox" Text="0" />
+
+            </Grid>
+            <Button>Reset</Button>
+            <Button> Move </Button>
+        </StackPanel>
+
+
+        <Grid>
+            <local:FloorWithLight x:Name="FloorWithLightCanvas" />
+            <Canvas x:Name="PathCanvas" HorizontalAlignment="Left" Height="{Binding World.Height}" Margin="10"
+                    VerticalAlignment="Top" Width="{Binding World.Width}" />
+        </Grid>
+    </StackPanel>
 </Window>
-
