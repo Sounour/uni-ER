@@ -1,4 +1,6 @@
-﻿namespace de.sounour.uni.er
+﻿using System.Windows.Media;
+
+namespace de.sounour.uni.er
 {
     public abstract class DrawableObject
     {
@@ -26,5 +28,8 @@
             get { return positionY; }
             set { positionY = exteriorWorld.ToY(value); }
         }
+
+        public abstract Visual Draw(); 
+
     }
 }

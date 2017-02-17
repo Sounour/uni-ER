@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace de.sounour.uni.er
 {
@@ -53,6 +54,12 @@ namespace de.sounour.uni.er
             Matrix transformation = Matrix.Identity;
             transformation.Rotate(d);
             Heading = Vector.Multiply(Heading, transformation);
+        }
+
+        /// <inheritdoc />
+        public override Visual Draw()
+        {
+            return new Rectangle() {Width = 10, Height = 10, Fill = Brushes.Red, Visibility = Visibility.Visible};
         }
     }
 }

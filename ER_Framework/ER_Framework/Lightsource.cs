@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace de.sounour.uni.er
 {
@@ -21,6 +23,12 @@ namespace de.sounour.uni.er
             if (distance > Range)
                 return 0;
             return Brightnes*(1 - distance/Range);
+        }
+
+        /// <inheritdoc />
+        public override Visual Draw()
+        {
+            return new Ellipse(){ Width = 5, Height = 5, Fill = Brushes.Yellow, Visibility = Visibility.Visible };
         }
     }
 }
