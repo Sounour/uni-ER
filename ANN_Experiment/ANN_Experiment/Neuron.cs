@@ -7,36 +7,43 @@ namespace ANN_Experiment
     {
         private readonly Func<double, double> activationFunction;
 
-        // w_0 to w_n with possible additional w_bias at the end 
+        private readonly int numberOfInputs;
+
+        // w_0 to w_n  where w_bias is the last 
         private readonly double[] weights;
 
 
         public Neuron(Func<double, double> activationFunction, int numberOfInputs)
         {
             this.activationFunction = activationFunction;
+            this.numberOfInputs = numberOfInputs;
 
-            weights = new double[numberOfInputs];
-            for (int i = 0; i < numberOfInputs; i++)
-                weights[i] = (Program.Random.NextDouble() - 0.5)*2.0;
+            weights = new double[numberOfInputs + 1];
+            for (int i = 0; i < weights.Length; i++)
+                weights[i] = Randoms.RandomDouble(1, -1);
         }
 
         public double Output(double[] inputs)
         {
-            if ((inputs.Length > weights.Length) || (inputs.Length + 1 < weights.Length))
+            if (inputs.Length != numberOfInputs)
                 return double.NaN;
 
-            double net = inputs.Length == weights.Length ? 0 : weights.Last();
+            double net = weights.Last();
             for (int i = 0; i < inputs.Length; i++)
                 net += inputs[i]*weights[i];
 
             return activationFunction(net);
         }
 
-        public void mutate()
+        public Neuron Mutate()
         {
+            Neuron mutatedNeuron = new Neuron(activationFunction, numberOfInputs);
+
             for (int i = 0; i < weights.Length; i++)
-            {
-            }
+                if (Randoms.RandomBool(GlobalVars.MutationProbailiy))
+                    mutatedNeuron.weights[i] += Randoms.RandomDouble(GlobalVars.MaxMutation);
+
+            return mutatedNeuron;
         }
     }
 }
