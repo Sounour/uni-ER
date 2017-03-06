@@ -40,7 +40,7 @@ namespace ANN_Experiment
             Neuron mutatedNeuron = new Neuron(activationFunction, numberOfInputs);
 
             for (int i = 0; i < weights.Length; i++)
-                if (Randoms.RandomBool(GlobalVars.MutationProbailiy))
+                if (Randoms.RandomBool(GlobalVars.NeuronValueMutationProbailiy))
                     mutatedNeuron.weights[i] += Randoms.RandomDouble(GlobalVars.MaxMutation);
 
             return mutatedNeuron;
