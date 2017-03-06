@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ANN_Experiment
 {
@@ -21,32 +25,39 @@ namespace ANN_Experiment
             };
 
 
+            StreamWriter outWriter = new StreamWriter("log.csv");
+            DateTime Started = DateTime.Now;
             for (int generation = 0; generation < GlobalVars.Generations; generation++)
             {
-                Console.Out.WriteLine("Starting selection for genereation {0}", generation);
-
-                SortedList<double, Network> ranking = new SortedList<Double,Network>(); 
-                foreach (Network instance in population)
+                if (generation%500 == 0)
                 {
-                    ranking.Add(instance.Fitness(inputBools),instance);
+                    Console.Out.WriteLine("Starting selection for genereation {0}, ETA: {1} minutes", generation, (DateTime.Now - Started).TotalMinutes / generation  * (GlobalVars.Generations - generation));
+                    outWriter.Write(generation);
+                    foreach (var network in population)
+                    {
+                        outWriter.Write(",{0}", network.Fitness(inputBools));
+                    }
+                    outWriter.WriteLine();
+                    outWriter.Flush();
                 }
 
                 List<Network> newGeneration = new List<Network>();
-                int numberOfElites = (int) Math.Round(GlobalVars.Generations*GlobalVars.Elites); 
-                newGeneration.AddRange(ranking.Values.Take(numberOfElites));
-
-                foreach (var nonSelectedNetwork in ranking.Skip(numberOfElites))
+                foreach (var network in population)
                 {
-                    newGeneration.Add(nonSelectedNetwork.Mutate());
-
-                }
-
+                    Network newNetwork = network.Mutate();
+                    double newFitness = newNetwork.Fitness(inputBools);
+                    double oldFitness = network.Fitness(inputBools);
+                    newGeneration.Add(newFitness > oldFitness ? newNetwork : network);
+                }                
                 population = newGeneration;
 
             }
             
-            
-           
+            foreach (Network network in population)
+            {
+                Console.Out.WriteLine("Fitness: {0}", network.Fitness(inputBools));
+            }
+
             Console.ReadLine();
         }
 
