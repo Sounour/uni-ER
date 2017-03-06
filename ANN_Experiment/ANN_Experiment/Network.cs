@@ -66,13 +66,16 @@ namespace ANN_Experiment
             Network mutatedNetwork = new Network(inputValues,hiddenNeurons);
             foreach (Neuron[] layer in mutatedNetwork.hiddenLayers)
             {
-                for (int i = 0; i < UPPER; i++)
+                foreach (Neuron neuron in layer)
                 {
-                    
-                }
-                
+                    if (Randoms.RandomBool(GlobalVars.NeuronMutationProbailiy))
+                    {
+                        neuron.Mutate(); 
+                    }
+                } 
             }
-            
+            return mutatedNetwork; 
+
 
         }
     }
